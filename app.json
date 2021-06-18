@@ -1,0 +1,6 @@
+{
+  "name": "cloutapis",
+  "description": "A set of helpful apis for BitClout",
+  "repository": "https://github.com/cloutapis/cloutapis",
+  "keywords": ["node", "typescript", "express", "bitclout"]
+}
