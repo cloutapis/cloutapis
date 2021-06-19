@@ -40,7 +40,7 @@ We don't believe that the future of the platform is one node with feature X, and
 * Get metadata for CloutTags
 
 
-<a href="https://www.google.com" target="_blank">
+<a href="https://github.com/cloutapis/cloutapis/wiki/CloutTags-API" target="_blank">
 <img width="202" alt="api-docs" src="https://user-images.githubusercontent.com/1068437/122657268-196ad800-d130-11eb-82fe-c7ddf7241a4d.png">
 </a>
 
