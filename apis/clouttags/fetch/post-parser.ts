@@ -7,7 +7,12 @@ export class PostParser {
     public fetchAndSaveLatestTaggedPosts = async () => {
         const latestTaggedPosts = await this.getLatestTaggedPosts()
         for (const taggedPost of latestTaggedPosts) {
-            await db.TagPost.create(taggedPost)
+            try {
+                await db.TagPost.create(taggedPost)
+            }
+            catch (e) {
+                console.log(`Couldn't save TagPost: ${e}`)
+            }
         }
         return latestTaggedPosts
     }
@@ -40,7 +45,7 @@ export class PostParser {
             OrderBy: '',
             StartTstampSecs: null,
             PostContent: '',
-            NumToFetch: 10,
+            NumToFetch: 50,
             FetchSubcomments: false,
             GetPostsForFollowFeed: false,
             GetPostsForGlobalWhitelist: false,
