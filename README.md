@@ -20,26 +20,38 @@ Clouttags let users create and browse the platform with semi-structured tags. Id
 
 ### GET `/clouttags/search`
 
-## Local Setup
+## Local Setup]
+Make sure you have [Node.js](http://nodejs.org/), [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) and the [Heroku CLI](https://cli.heroku.com/) installed.
+
+```
+git clone https://github.com/cloutapis/cloutapis
+cd cloutapis
+yarn
+```
+
 ### Database
 * A local Postgres instance running
 * A user with username `cloutapis`, password `cloutapis` (these are declared in `.env`)
 
-## Building Locally
-Make sure you have [Node.js](http://nodejs.org/), [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) and the [Heroku CLI](https://cli.heroku.com/) installed.
+Once you have your local postgres instance running with the user created, you can run:
+
+```
+yarn db:create
+yarn db:migrate
+```
+
+### Building Locally
+The typescript needs to be built before running. This only takes a few seconds:
 
 ```sh
-$ git clone https://github.com/cloutapis/cloutapis
-$ cd cloutapis
-$ yarn
-$ yarn build
-$ yarn start
+yarn build
+yarn start
 ```
 
 Your app should now be running on [localhost:5000](http://localhost:5000/).
 
 ## Running the worker locally
-The worker can be started, after `yarn build`:
+The worker can be started after `yarn build`:
 
 ```
 node dist/apis/clouttags/fetch/worker.js
