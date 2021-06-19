@@ -1,5 +1,5 @@
 <center>
-<img width="1708" alt="cloutapis" src="https://user-images.githubusercontent.com/1068437/122652148-4fe22c00-d10b-11eb-9234-72bc5f558035.png" alt="Open-source APIs to make building on BitClout easier, faster and more fun.">
+<img width="354" alt="CleanShot 2021-06-19 at 18 18 39@2x" src="https://user-images.githubusercontent.com/1068437/122656684-d3f7dc00-d12a-11eb-95b3-0792c9c0443e.png" alt="CloutAPIs. Open-source APIs to make building on BitClout easier, faster and more fun." style="margin-left: auto; margin-right: auto;">
 </center>
 
 
