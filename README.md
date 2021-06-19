@@ -14,11 +14,11 @@ Clouttags let users create and browse the platform with semi-structured tags. Id
 
 ### GET `/clouttag/:tag`
 
-### GET `/clouttag/:tag/posts`
+### GET `/clouttag/:tag/posts/:limit/:offset`
 
 ### GET `/clouttags/trending`
 
-### GET `/clouttags/search`
+### GET `/clouttags/search/:tagPrefix`
 
 ## Local Setup]
 Make sure you have [Node.js](http://nodejs.org/), [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) and the [Heroku CLI](https://cli.heroku.com/) installed.
