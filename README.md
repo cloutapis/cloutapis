@@ -20,6 +20,11 @@ Clouttags let users create and browse the platform with semi-structured tags. Id
 
 ### GET `/clouttags/search`
 
+## Local Setup
+### Database
+* A local Postgres instance running
+* A user with username `cloutapis`, password `cloutapis` (these are declared in `.env`)
+
 ## Building Locally
 Make sure you have [Node.js](http://nodejs.org/), [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) and the [Heroku CLI](https://cli.heroku.com/) installed.
 
