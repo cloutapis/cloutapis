@@ -1,7 +1,6 @@
 import * as express from 'express';
 import CloutTag from './clouttag.interface';
 import Post from './post.interface';
-import PostParser from './fetch/post-parser';
 import db, { sequelize } from "../../models/index";
 import { Op } from "sequelize";
 
@@ -31,7 +30,6 @@ class CloutTagsController {
   public initializeRoutes() {
     this.router.get('/clouttags/trending', this.getTopTags);
     this.router.get('/clouttags/search/:tag', this.searchTags);
-    this.router.get('/clouttags/fetch-test', this.testFetcher);
 
     this.router.get('/clouttag/:tag', this.getTag)
     this.router.get('/clouttag/:tag/posts/:limit/:offset', this.getTagPosts);
@@ -124,12 +122,6 @@ class CloutTagsController {
     const { post }: { post: CloutTag } = request.body;
     this.tags.push(post);
     response.send(post);
-  }
-
-  testFetcher = async (request: express.Request, response: express.Response) => {
-    const parser = new PostParser()
-    const parsedPosts = await parser.fetchAndSaveLatestTaggedPosts()
-    response.send(parsedPosts);
   }
 }
 
