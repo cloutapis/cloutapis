@@ -5,9 +5,7 @@ module.exports = {
     return queryInterface.removeColumn(
       'TagPosts',
       'postObject'
-      
     );
-
   },
 
   down: async (queryInterface, Sequelize) => {

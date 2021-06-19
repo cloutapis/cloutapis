@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   TagPost.init({
-    tag: DataTypes.STRING,
+    clouttag: DataTypes.STRING,
     postHashHex: DataTypes.STRING
   }, {
     sequelize,

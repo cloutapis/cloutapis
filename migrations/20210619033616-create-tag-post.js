@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      tag: {
+      clouttag: {
         type: Sequelize.STRING
       },
       postHashHex: {
@@ -26,10 +26,10 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addIndex('TagPosts', ['tag']);
+    await queryInterface.addIndex('TagPosts', ['clouttag']);
     await queryInterface.addIndex('TagPosts', ['postHashHex']);
     await queryInterface.addConstraint('TagPosts', {
-      fields: ['postHashHex', 'tag'],
+      fields: ['postHashHex', 'clouttag'],
       type: 'unique',
       name: 'unique_tag_post_map'
     });

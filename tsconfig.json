@@ -16,6 +16,7 @@
   "include": [
     "./index.ts",
     "./config/config.js",
-    "./models/tagpost.js"
+    "./models/tagpost.js",
+    "apis/clouttags/fetch/worker.ts"
   ]
 }
