@@ -1,5 +1,8 @@
-# cloutapis
-A set of helpful APIs for BitClout.
+<center>
+<img width="1708" alt="cloutapis" src="https://user-images.githubusercontent.com/1068437/122652120-2a552280-d10b-11eb-9d46-95c1a1de0827.png" alt="Open-source APIs to make building on BitClout easier, faster and more fun.">
+
+</center>
+
 
 # APIs
 * Clouttags: 
