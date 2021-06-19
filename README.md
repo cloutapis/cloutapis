@@ -38,6 +38,13 @@ $ yarn start
 
 Your app should now be running on [localhost:5000](http://localhost:5000/).
 
+## Running the worker locally
+The worker can be started, after `yarn build`:
+
+```
+node dist/apis/clouttags/fetch/worker.js
+```
+
 ## Deploying to Heroku
 
 ```
