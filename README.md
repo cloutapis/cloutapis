@@ -1,12 +1,12 @@
 <center>
 <img width="1708" alt="cloutapis" src="https://user-images.githubusercontent.com/1068437/122652148-4fe22c00-d10b-11eb-9234-72bc5f558035.png" alt="Open-source APIs to make building on BitClout easier, faster and more fun.">
-
-
 </center>
 
 
 # APIs
-* Clouttags: 
+**CloutTags**: Easily show trending CloutTags in your application, supporting trending, search and listing posts.
+
+**More coming soon**: Have an idea... create a GitHub issue :)
 
 ## Hosted APIs
 All APIs are available at `https://api.cloutapis.com/`. Alternatively, you can clone, and host your own version of them.
