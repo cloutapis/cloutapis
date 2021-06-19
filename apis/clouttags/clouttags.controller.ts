@@ -84,8 +84,7 @@ class CloutTagsController {
 
   getTagPosts = async (request: express.Request, response: express.Response) => {
     const { tag } = request.params;
-    const { numToFetch } = request.query;
-    const { offset } = request.query;
+    const { numToFetch, offset } = request.query;
 
     if (!tag) {
       response.status(400).send({
