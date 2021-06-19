@@ -36,7 +36,8 @@ export class PostParser {
                 hashtags.forEach(function (hashtag: any) {
                     const mapping = {
                         postHashHex: post.PostHashHex,
-                        clouttag: hashtag.replace("#", "")
+                        clouttag: hashtag.replace("#", "").toLowerCase(),
+                        postedAt: new Date(post.TimestampNanos / 1000000)
                     }
                     mappings.push(mapping);
                 })
