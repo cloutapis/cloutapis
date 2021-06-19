@@ -6,10 +6,14 @@
   Open-source APIs to make building on BitClout easier, faster and more fun.
 </h3>
 
+<br />
+
 # What is CloutAPIs?
 CloutAPIs is a set of APIs that sit **on-top** of the BitClout blockchain to provide simpler, richer or additional functionality and hopefully will prevent multiple developers from having to implement the same features.
 
 In some cases, CloutAPIs will augment blockchain information with data stored off-chain for informational, metadata or optimization purposes.
+<br />
+<br />
 
 ## Why?
 
@@ -20,6 +24,7 @@ As early developers on BitClout we saw two trends that we hope to help avoid con
 
 We don't believe that the future of the platform is one node with feature X, and another with feature Y, but rather a framework of features that are collaborated on. In time, we hope to build an economic framework around this too.
 
+<br />
 
 # APIs
 <p >
@@ -40,6 +45,7 @@ We don't believe that the future of the platform is one node with feature X, and
 
 
 <br /><br />
+
 <img width="372" alt="comingsoon" src="https://user-images.githubusercontent.com/1068437/122657053-f9d2b000-d12d-11eb-80d7-ef746bf9b127.png">
 
 <h3>More APIs coming soon...</h3>
