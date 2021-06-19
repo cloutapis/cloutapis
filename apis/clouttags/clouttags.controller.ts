@@ -32,7 +32,7 @@ class CloutTagsController {
     this.router.get('/clouttags/search/:tag', this.searchTags);
 
     this.router.get('/clouttag/:tag', this.getTag)
-    this.router.get('/clouttag/:tag/posts/:limit/:offset', this.getTagPosts);
+    this.router.get('/clouttag/:tag/posts', this.getTagPosts);
   }
 
   getTopTags = async (request: express.Request, response: express.Response) => {
@@ -84,8 +84,8 @@ class CloutTagsController {
 
   getTagPosts = async (request: express.Request, response: express.Response) => {
     const { tag } = request.params;
-    let { limit } = request.params;
-    let { offset } = request.params;
+    const { numToFetch } = request.query;
+    const { offset } = request.query;
 
     if (!tag) {
       response.status(400).send({
@@ -95,9 +95,9 @@ class CloutTagsController {
 
     const isNumber = (value) => value != null && !isNaN(value) && !isNaN(parseFloat(value));
 
-    let limitNum = Number(limit);
-    if (!isNumber(limitNum)) {
-      limitNum = 20;
+    let numToFetchNum = Number(numToFetch);
+    if (!isNumber(numToFetchNum)) {
+      numToFetchNum = 20;
     }
 
     let offsetNum = Number(offset);
@@ -107,13 +107,14 @@ class CloutTagsController {
 
     const tagLowercase = tag.toLocaleLowerCase();
     const posts = await db.TagPost.findAll({
-      limit: limitNum,
+      limit: numToFetchNum,
       offset: offsetNum,
       where: {
         clouttag: tagLowercase
       },
+      attributes: ["postHashHex"],
       order: [["postedAt", "DESC"]]
-    });
+    }).then(posts => posts.map(post => post.postHashHex));;
 
     response.send(posts);
   }
