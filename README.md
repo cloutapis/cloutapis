@@ -1,6 +1,6 @@
 <p align="center" >
 
-<a href="#"><img width="354" alt="CleanShot 2021-06-19 at 18 18 39@2x" src="https://user-images.githubusercontent.com/1068437/122656684-d3f7dc00-d12a-11eb-95b3-0792c9c0443e.png" alt="CloutAPIs Logo" ></a>
+<img width="354" alt="CleanShot 2021-06-19 at 18 18 39@2x" src="https://user-images.githubusercontent.com/1068437/122656684-d3f7dc00-d12a-11eb-95b3-0792c9c0443e.png" alt="CloutAPIs Logo" >
 </p>
 <h3 align="center" style="margin-top:-40px;">
   Open-source APIs to make building on BitClout easier, faster and more fun.
