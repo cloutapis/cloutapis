@@ -22,25 +22,35 @@ We don't believe that the future of the platform is one node with feature X, and
 
 
 # APIs
-**CloutTags**: Easily show trending CloutTags in your application, supporting trending, search and listing posts.
+<p >
+  <img width="287" alt="ct2" src="https://user-images.githubusercontent.com/1068437/122657023-cd1e9880-d12d-11eb-8184-0e5942c5d275.png">
+  <br />
+  <h3 >A simple way to add support for CloutTags in your application.</h3>
+  
+</p>
 
-**More coming soon**: Have an idea... create a GitHub issue :)
+* Get **trending** CloutTags in real time
+* List posts for any CloutTag
+* Autocomplete CloutTags
+* Get metadata for CloutTags
 
-## Hosted APIs
+<a href="https://www.google.com" target="_blank">
+  <img width="320" alt="CleanShot 2021-06-19 at 18 47 22@2x" src="https://user-images.githubusercontent.com/1068437/122657147-d6f4cb80-d12e-11eb-9cd2-07836d69b47a.png">
+</a>
+
+
+<br /><br />
+<img width="372" alt="comingsoon" src="https://user-images.githubusercontent.com/1068437/122657053-f9d2b000-d12d-11eb-80d7-ef746bf9b127.png">
+
+<h3>More APIs coming soon...</h3>
+
+If you have an idea that you'd like to see made (or want to contribute), jump over to the [Issues](https://github.com/cloutapis/cloutapis/issues) and suggest it!
+
+# Hosted APIs
 All APIs are available at `https://api.cloutapis.com/`. Alternatively, you can clone, and host your own version of them.
 
-You are welcome to use our hosted versions for development, although know that we intend for them to move to a small fee in BitClout to use in the future.
+You are welcome to use our hosted versions for development, although know that we intend to explore monetization for professional usage in the future (via BitClout.)
 
-## Clouttags
-Clouttags let users create and browse the platform with semi-structured tags. Ideally, clouttags allow subcomunities to form and more organic discovery to occur!
-
-### GET `/clouttag/:tag`
-
-### GET `/clouttag/:tag/posts/:limit/:offset`
-
-### GET `/clouttags/trending`
-
-### GET `/clouttags/search/:tagPrefix`
 
 ## Local Setup]
 Make sure you have [Node.js](http://nodejs.org/) and [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) installed.
