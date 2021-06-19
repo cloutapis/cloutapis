@@ -39,10 +39,10 @@ We don't believe that the future of the platform is one node with feature X, and
 * Autocomplete CloutTags
 * Get metadata for CloutTags
 
-<a href="https://www.google.com" target="_blank">
-  <img width="320" alt="CleanShot 2021-06-19 at 18 47 22@2x" src="https://user-images.githubusercontent.com/1068437/122657147-d6f4cb80-d12e-11eb-9cd2-07836d69b47a.png">
-</a>
 
+<a href="https://www.google.com" target="_blank">
+<img width="202" alt="api-docs" src="https://user-images.githubusercontent.com/1068437/122657268-196ad800-d130-11eb-82fe-c7ddf7241a4d.png">
+</a>
 
 <br /><br />
 
