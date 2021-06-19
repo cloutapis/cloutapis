@@ -5,12 +5,17 @@
     "outDir": "./dist",
     "strict": true,
     "target": "ES2019",
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
+    "allowJs": true,
 
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "removeComments": true,
   },
   "include": [
-    "./index.ts"
+    "./index.ts",
+    "./config/config.js",
+    "./models/tagpost.js"
   ]
 }

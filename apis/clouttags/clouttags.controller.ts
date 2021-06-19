@@ -1,6 +1,7 @@
 import * as express from 'express';
 import CloutTag from './clouttag.interface';
 import Post from './post.interface';
+import PostParser from './fetch/post-parser';
  
 class CloutTagsController {
   public path = '/clouttags';
@@ -28,6 +29,7 @@ class CloutTagsController {
   public intializeRoutes() {
     this.router.get('/clouttags/trending', this.getTopTags);
     this.router.get('/clouttags/search', this.searchTags);
+    this.router.get('/clouttags/fetch-test', this.testFetcher);
 
     this.router.get('/clouttag/:tag', this.getTag)
     this.router.get('/clouttag/:tag/posts', this.getTagPosts);
@@ -68,6 +70,12 @@ class CloutTagsController {
     const { post }: { post: CloutTag } = request.body;
     this.tags.push(post);
     response.send(post);
+  }
+
+  testFetcher = async (request: express.Request, response: express.Response) => {
+    const parser = new PostParser()
+    const parsedPosts = await parser.fetchAndSaveLatestTaggedPosts()
+    response.send(parsedPosts);
   }
 }
  
