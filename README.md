@@ -1,6 +1,24 @@
-<center>
-<img width="354" alt="CleanShot 2021-06-19 at 18 18 39@2x" src="https://user-images.githubusercontent.com/1068437/122656684-d3f7dc00-d12a-11eb-95b3-0792c9c0443e.png" alt="CloutAPIs. Open-source APIs to make building on BitClout easier, faster and more fun." style="margin-left: auto; margin-right: auto;">
-</center>
+<p align="center" >
+
+<img width="354" alt="CleanShot 2021-06-19 at 18 18 39@2x" src="https://user-images.githubusercontent.com/1068437/122656684-d3f7dc00-d12a-11eb-95b3-0792c9c0443e.png" alt="CloutAPIs Logo" >
+</p>
+<h3 align="center" style="margin-top:-40px;">
+  Open-source APIs to make building on BitClout easier, faster and more fun.
+</h3>
+
+# What is CloutAPIs?
+CloutAPIs is a set of APIs that sit **on-top** of the BitClout blockchain to provide simpler, richer or additional functionality and hopefully will prevent multiple developers from having to implement the same features.
+
+In some cases, CloutAPIs will augment blockchain information with data stored off-chain for informational, metadata or optimization purposes.
+
+## Why?
+
+As early developers on BitClout we saw two trends that we hope to help avoid continuing:
+
+1. Many developers all having to write the same functionality to get their apps up and running
+2. Developers creating siloed "destinations" for individual features
+
+We don't believe that the future of the platform is one node with feature X, and another with feature Y, but rather a framework of features that are collaborated on. In time, we hope to build an economic framework around this too.
 
 
 # APIs
@@ -25,7 +43,7 @@ Clouttags let users create and browse the platform with semi-structured tags. Id
 ### GET `/clouttags/search/:tagPrefix`
 
 ## Local Setup]
-Make sure you have [Node.js](http://nodejs.org/), [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) and the [Heroku CLI](https://cli.heroku.com/) installed.
+Make sure you have [Node.js](http://nodejs.org/) and [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) installed.
 
 ```
 git clone https://github.com/cloutapis/cloutapis
@@ -61,9 +79,3 @@ The worker can be started after `yarn build`:
 node dist/apis/clouttags/fetch/worker.js
 ```
 
-## Deploying to Heroku
-
-```
-$ git push heroku main
-$ heroku open
-``
