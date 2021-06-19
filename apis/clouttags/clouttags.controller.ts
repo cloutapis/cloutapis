@@ -2,7 +2,7 @@ import * as express from 'express';
 import CloutTag from './clouttag.interface';
 import Post from './post.interface';
 import PostParser from './fetch/post-parser';
- 
+
 class CloutTagsController {
   public path = '/clouttags';
   public router = express.Router();
@@ -23,10 +23,10 @@ class CloutTagsController {
   ];
  
   constructor() {
-    this.intializeRoutes();
+    this.initializeRoutes();
   }
  
-  public intializeRoutes() {
+  public initializeRoutes() {
     this.router.get('/clouttags/trending', this.getTopTags);
     this.router.get('/clouttags/search', this.searchTags);
     this.router.get('/clouttags/fetch-test', this.testFetcher);
