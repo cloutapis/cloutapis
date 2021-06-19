@@ -27,8 +27,7 @@ export class PostParser {
                 hashtags.forEach(function (hashtag: any) {
                     const mapping = {
                         postHashHex: post.PostHashHex,
-                        tag: hashtag.replace("#", ""),
-                        postObject: JSON.stringify(post)
+                        clouttag: hashtag.replace("#", "")
                     }
                     mappings.push(mapping);
                 })

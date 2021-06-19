@@ -1,5 +1,5 @@
 interface CloutTag {
-    tag: string;
+    clouttag: string;
 }
    
 export default CloutTag;

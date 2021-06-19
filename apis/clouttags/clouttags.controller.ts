@@ -9,7 +9,7 @@ class CloutTagsController {
  
   private tags: CloutTag[] = [
     {
-      tag: "Derp"
+      clouttag: "Derp"
     }
   ];
 
@@ -17,7 +17,7 @@ class CloutTagsController {
     {
       transactionHashHex: "1",
       clouttags: [ {
-        tag: "Derp"
+        clouttag: "Derp"
       }]
     }
   ];
