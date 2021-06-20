@@ -58,7 +58,7 @@ All APIs are available at `https://api.cloutapis.com/`. Alternatively, you can c
 You are welcome to use our hosted versions for development, although know that we intend to explore monetization for professional usage in the future (via BitClout.)
 
 
-## Local Setup]
+## Local Setup
 Make sure you have [Node.js](http://nodejs.org/) and [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) installed.
 
 ```
