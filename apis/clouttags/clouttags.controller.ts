@@ -3,6 +3,7 @@ import CloutTag from './clouttag.interface';
 import Post from './post.interface';
 import db, { sequelize } from "../../models/index";
 import { Op } from "sequelize";
+import moment from 'moment'
 
 class CloutTagsController {
   public path = '/clouttags';
@@ -38,9 +39,14 @@ class CloutTagsController {
   getTopTags = async (request: express.Request, response: express.Response) => {
     const tags = await db.TagPost.findAll({
       limit: 20,
-      attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "clouttagCount"]],
+      where: {
+        createdAt: {
+          [Op.gte]: moment().subtract(1, 'days').toDate()
+        }
+      },
+      attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "count"]],
       group: ["clouttag"],
-      order: [[sequelize.col("clouttagCount"), "DESC"]],
+      order: [[sequelize.col("count"), "DESC"]],
     });
 
     response.send(tags);
@@ -63,9 +69,9 @@ class CloutTagsController {
           [Op.like]: tagLowercase + "%"
         }
       },
-      attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "clouttagCount"]],
+      attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "count"]],
       group: ["clouttag"],
-      order: [[sequelize.col("clouttagCount"), "DESC"]],
+      order: [[sequelize.col("count"), "DESC"]],
     });
 
     response.send(tags)
