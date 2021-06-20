@@ -63,9 +63,15 @@ class CloutTagsController {
       attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "count"]],
       group: ["clouttag"],
       order: [[sequelize.col("count"), "DESC"]],
+      raw: true
     });
 
-    response.send(tags)
+    const formatted = tags.map(function (tag) {
+      tag.count = parseInt(tag.count);
+      return tag;
+    });
+
+    response.send(formatted)
   }
 
   getTag = (request: express.Request, response: express.Response) => {
