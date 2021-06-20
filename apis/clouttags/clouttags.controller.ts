@@ -9,21 +9,6 @@ class CloutTagsController {
   public path = '/clouttags';
   public router = express.Router();
 
-  private tags: CloutTag[] = [
-    {
-      clouttag: "Derp"
-    }
-  ];
-
-  private posts: Post[] = [
-    {
-      transactionHashHex: "1",
-      clouttags: [{
-        clouttag: "Derp"
-      }]
-    }
-  ];
-
   constructor() {
     this.initializeRoutes();
   }
@@ -47,9 +32,15 @@ class CloutTagsController {
       attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "count"]],
       group: ["clouttag"],
       order: [[sequelize.col("count"), "DESC"]],
+      raw: true
     });
 
-    response.send(tags);
+    const formatted = tags.map(function (tag) {
+        tag.count = parseInt(tag.count);
+        return tag;
+    });
+
+    response.send(formatted);
   }
 
   searchTags = async (request: express.Request, response: express.Response) => {
@@ -85,7 +76,7 @@ class CloutTagsController {
       })
     }
 
-    response.send(this.tags[0])
+    response.send([])
   }
 
   getTagPosts = async (request: express.Request, response: express.Response) => {
@@ -122,12 +113,6 @@ class CloutTagsController {
     }).then(posts => posts.map(post => post.postHashHex));;
 
     response.send(posts);
-  }
-
-  createAPost = (request: express.Request, response: express.Response) => {
-    const { post }: { post: CloutTag } = request.body;
-    this.tags.push(post);
-    response.send(post);
   }
 }
 
