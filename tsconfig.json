@@ -17,6 +17,6 @@
     "./index.ts",
     "./config/config.js",
     "./models/tagpost.js",
-    "apis/clouttags/fetch/worker.ts"
+    "apis/worker.ts"
   ]
 }
