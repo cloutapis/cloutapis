@@ -43,6 +43,7 @@ export class SearchManager {
                 query: {
                     multi_match: {
                         query: term,
+                        fuzziness: 'AUTO',
                         fields: [ '*' ]
                     }
                 }
