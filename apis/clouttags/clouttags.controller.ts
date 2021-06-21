@@ -1,9 +1,8 @@
 import * as express from 'express';
-import CloutTag from './clouttag.interface';
-import Post from './post.interface';
 import db, { sequelize } from "../../models/index";
 import { Op } from "sequelize";
 import moment from 'moment'
+import { TypeHelper } from '../../helpers/typeHelper';
 
 class CloutTagsController {
   public path = '/clouttags';
@@ -22,8 +21,21 @@ class CloutTagsController {
   }
 
   getTopTags = async (request: express.Request, response: express.Response) => {
+    const { numToFetch, offset } = request.query;
+
+    let numToFetchNum = Number(numToFetch);
+    if (!TypeHelper.isNumber(numToFetchNum)) {
+      numToFetchNum = 20;
+    }
+
+    let offsetNum = Number(offset);
+    if (!TypeHelper.isNumber(offsetNum)) {
+      offsetNum = 0;
+    }
+  
     const tags = await db.TagPost.findAll({
-      limit: 20,
+      limit: numToFetchNum,
+      offset: offsetNum,
       where: {
         createdAt: {
           [Op.gte]: moment().subtract(1, 'days').toDate()
@@ -45,6 +57,7 @@ class CloutTagsController {
 
   searchTags = async (request: express.Request, response: express.Response) => {
     let { tag } = request.params;
+
     if (!tag) {
       response.status(400).send({
         error: "Requires :tag"
@@ -95,15 +108,14 @@ class CloutTagsController {
       });
     }
 
-    const isNumber = (value) => value != null && !isNaN(value) && !isNaN(parseFloat(value));
 
     let numToFetchNum = Number(numToFetch);
-    if (!isNumber(numToFetchNum)) {
+    if (!TypeHelper.isNumber(numToFetchNum)) {
       numToFetchNum = 20;
     }
 
     let offsetNum = Number(offset);
-    if (!isNumber(offsetNum)) {
+    if (!TypeHelper.isNumber(offsetNum)) {
       offsetNum = 0;
     }
 
