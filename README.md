@@ -24,6 +24,8 @@ As early developers on BitClout we saw two trends that we hope to help avoid con
 
 We don't believe that the future of the platform is one node with feature X, and another with feature Y, but rather a framework of features that are collaborated on. In time, we hope to build an economic framework around this too.
 
+Today, CloutAPIs are free for all to use. In the near future we will introduce API keys for apps and in the further future will look to explore models of monetization that can support a developer ecosystem — where a new developer may choose to distribute their feature via CloutAPIs instead of building a new destination portal for it. That is when we all truly win.
+
 <br />
 
 # APIs
