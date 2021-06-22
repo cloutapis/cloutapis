@@ -12,6 +12,8 @@
 CloutAPIs is a set of APIs that sit **on-top** of the BitClout blockchain to provide simpler, richer or additional functionality and hopefully will prevent multiple developers from having to implement the same features.
 
 In some cases, CloutAPIs will augment blockchain information with data stored off-chain for informational, metadata or optimization purposes.
+
+[💬 Join the Discord](https://discord.gg/47Q5m3g3Ks)
 <br />
 <br />
 
