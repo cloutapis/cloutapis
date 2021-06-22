@@ -11,7 +11,10 @@ export class CloutTagManager {
                 await db.TagPost.create(taggedPost)
             }
             catch (e) {
-                console.log(`Couldn't save TagPost: ${e}`)
+                // We're allowing the DB to be our uniqueness check for now
+                if (!e.name.includes("SequelizeUniqueConstraintError")) {
+                    console.log(`Couldn't save TagPost: ${e}`)
+                }
             }
         }
         return latestTaggedPosts

@@ -3,7 +3,7 @@ import elasticsearch from 'elasticsearch';
 export class SearchManager {
     private client = new elasticsearch.Client({
         host: process.env.BONSAI_URL,
-        log: 'trace'
+        log: 'error'
     });
 
     public indexPosts = async (posts) => {
@@ -31,8 +31,9 @@ export class SearchManager {
                 }
             };
             bulkRequests.push(request)
-            self.client.bulk({ body: bulkRequests });
+            
         });
+        self.client.bulk({ body: bulkRequests });
     }
 
     public performSearch = async (term) => {
