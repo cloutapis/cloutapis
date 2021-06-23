@@ -1,11 +1,12 @@
-import * as express from 'express';
+import * as express from "express";
 import db, { sequelize } from "../../models/index";
 import { Op } from "sequelize";
-import moment from 'moment'
-import { TypeHelper } from '../../helpers/typeHelper';
+import moment from "moment";
+import { TypeHelper } from "../../helpers/typeHelper";
+import asyncHandler from "express-async-handler";
 
 class CloutTagsController {
-  public path = '/clouttags';
+  public path = "/clouttags";
   public router = express.Router();
 
   constructor() {
@@ -13,11 +14,11 @@ class CloutTagsController {
   }
 
   public initializeRoutes() {
-    this.router.get('/clouttags/trending', this.getTopTags);
-    this.router.get('/clouttags/search/:tag', this.searchTags);
+    this.router.get("/clouttags/trending", asyncHandler(this.getTopTags));
+    this.router.get("/clouttags/search/:tag", asyncHandler(this.searchTags));
 
-    this.router.get('/clouttag/:tag', this.getTag)
-    this.router.get('/clouttag/:tag/posts', this.getTagPosts);
+    this.router.get("/clouttag/:tag", asyncHandler(this.getTag));
+    this.router.get("/clouttag/:tag/posts", asyncHandler(this.getTagPosts));
   }
 
   getTopTags = async (request: express.Request, response: express.Response) => {
@@ -32,36 +33,36 @@ class CloutTagsController {
     if (!TypeHelper.isNumber(offsetNum)) {
       offsetNum = 0;
     }
-  
+
     const tags = await db.TagPost.findAll({
       limit: numToFetchNum,
       offset: offsetNum,
       where: {
         createdAt: {
-          [Op.gte]: moment().subtract(1, 'days').toDate()
-        }
+          [Op.gte]: moment().subtract(1, "days").toDate(),
+        },
       },
       attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "count"]],
       group: ["clouttag"],
       order: [[sequelize.col("count"), "DESC"]],
-      raw: true
+      raw: true,
     });
 
     const formatted = tags.map(function (tag) {
-        tag.count = parseInt(tag.count);
-        return tag;
+      tag.count = parseInt(tag.count);
+      return tag;
     });
 
     response.send(formatted);
-  }
+  };
 
   searchTags = async (request: express.Request, response: express.Response) => {
     let { tag } = request.params;
 
     if (!tag) {
       response.status(400).send({
-        error: "Requires :tag"
-      })
+        error: "Requires :tag",
+      });
     }
 
     const tagLowercase = tag.toLocaleLowerCase();
@@ -70,13 +71,13 @@ class CloutTagsController {
       limit: 20,
       where: {
         clouttag: {
-          [Op.like]: tagLowercase + "%"
-        }
+          [Op.like]: tagLowercase + "%",
+        },
       },
       attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "count"]],
       group: ["clouttag"],
       order: [[sequelize.col("count"), "DESC"]],
-      raw: true
+      raw: true,
     });
 
     const formatted = tags.map(function (tag) {
@@ -84,30 +85,32 @@ class CloutTagsController {
       return tag;
     });
 
-    response.send(formatted)
-  }
+    response.send(formatted);
+  };
 
   getTag = (request: express.Request, response: express.Response) => {
     let { tag } = request.params;
     if (!tag) {
       response.status(400).send({
-        error: "Requires :tag"
-      })
+        error: "Requires :tag",
+      });
     }
 
-    response.send([])
-  }
+    response.send([]);
+  };
 
-  getTagPosts = async (request: express.Request, response: express.Response) => {
+  getTagPosts = async (
+    request: express.Request,
+    response: express.Response
+  ) => {
     const { tag } = request.params;
     const { numToFetch, offset } = request.query;
 
     if (!tag) {
       response.status(400).send({
-        error: "Requires :tag"
+        error: "Requires :tag",
       });
     }
-
 
     let numToFetchNum = Number(numToFetch);
     if (!TypeHelper.isNumber(numToFetchNum)) {
@@ -124,14 +127,14 @@ class CloutTagsController {
       limit: numToFetchNum,
       offset: offsetNum,
       where: {
-        clouttag: tagLowercase
+        clouttag: tagLowercase,
       },
       attributes: ["postHashHex"],
-      order: [["postedAt", "DESC"]]
-    }).then(posts => posts.map(post => post.postHashHex));;
+      order: [["postedAt", "DESC"]],
+    }).then((posts) => posts.map((post) => post.postHashHex));
 
     response.send(posts);
-  }
+  };
 }
 
 export default CloutTagsController;
