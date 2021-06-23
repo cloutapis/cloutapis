@@ -11,7 +11,5 @@ express()
   .use(express.static(path.join(__dirname, '../public')))
   .use('/', new CloutTagsController().router)
   .use('/', new SearchController().router)
-  .set('views', path.join(__dirname, '../views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
+  .get('/', (req, res) => res.redirect(301, 'https://www.cloutapis.com'))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
