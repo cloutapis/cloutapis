@@ -1,26 +1,30 @@
-import * as express from 'express';
+import * as express from "express";
 import db, { sequelize } from "../../models/index";
-import SearchManager from './search-manager'
+import SearchManager from "./search-manager";
+import asyncHandler from "express-async-handler";
 
 class SearchController {
-    private searchManager = new SearchManager();
-    public path = '/search';
-    public router = express.Router();
+  private searchManager = new SearchManager();
+  public path = "/search";
+  public router = express.Router();
 
-    constructor() {
-        this.initializeRoutes();
-    }
+  constructor() {
+    this.initializeRoutes();
+  }
 
-    public initializeRoutes() {
-        this.router.get('/search', this.performSearch);
-    }
+  public initializeRoutes() {
+    this.router.get("/search", asyncHandler(this.performSearch));
+  }
 
-    performSearch = async (request: express.Request, response: express.Response) => {
-        const { q } = request.query;
-        const results = await this.searchManager.performSearch(q)
+  performSearch = async (
+    request: express.Request,
+    response: express.Response
+  ) => {
+    const { q } = request.query;
+    const results = await this.searchManager.performSearch(q);
 
-        response.send(results);
-    }
+    response.send(results);
+  };
 }
 
 export default SearchController;
