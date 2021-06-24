@@ -99,3 +99,10 @@ The worker can be started after `yarn build`:
 node dist/apis/clouttags/fetch/worker.js
 ```
 
+## Using Docker for the development environment
+```sh
+make start # starts the env
+make stop # stops the env
+```
+
+
