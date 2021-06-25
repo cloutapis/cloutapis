@@ -2,6 +2,7 @@ import * as express from "express";
 import db, { sequelize } from "../../models/index";
 import SearchManager from "./search-manager";
 import asyncHandler from "express-async-handler";
+import { TypeHelper } from "../../helpers/typeHelper";
 
 class SearchController {
   private searchManager = new SearchManager();
@@ -20,8 +21,19 @@ class SearchController {
     request: express.Request,
     response: express.Response
   ) => {
-    const { q } = request.query;
-    const results = await this.searchManager.performSearch(q);
+    const { q, numToFetch, offset }: { q?: string; numToFetch?: number; offset?: number } = request.query;
+
+    let numToFetchNum = Number(numToFetch);
+    if (!TypeHelper.isNumber(numToFetchNum)) {
+      numToFetchNum = 20;
+    }
+
+    let offsetNum = Number(offset);
+    if (!TypeHelper.isNumber(offsetNum)) {
+      offsetNum = 0;
+    }
+    
+    const results = await this.searchManager.performSearch(q, numToFetch, offset);
 
     response.send(results);
   };

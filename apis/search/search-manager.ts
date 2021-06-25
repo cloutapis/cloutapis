@@ -35,16 +35,17 @@ export class SearchManager {
     self.client.bulk({ body: bulkRequests });
   };
 
-  public performSearch = async (term) => {
+  public performSearch = async (term?: string, numToFetch = 10, offset = 0) => {
     const results = await this.client.search({
       index: "post-index",
-      size: 10,
+      from: offset,
+      size: numToFetch,
       body: {
         query: {
           multi_match: {
             query: term,
             fuzziness: "AUTO",
-            fields: ["*"],
+            fields: ["body.post^3", "body.author"],
           },
         },
       },
