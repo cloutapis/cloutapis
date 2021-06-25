@@ -9,7 +9,7 @@ export class BitcloutAPI {
             OrderBy: '',
             StartTstampSecs: null,
             PostContent: '',
-            NumToFetch: 50,
+            NumToFetch: 100,
             FetchSubcomments: false,
             GetPostsForFollowFeed: false,
             GetPostsForGlobalWhitelist: false,
