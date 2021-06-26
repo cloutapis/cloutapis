@@ -101,7 +101,7 @@ class SavedPostsController {
         }
 
         try {
-            const result = this.savedPostsManager.getSavedPosts(publicKey as string, numToFetchNum, offsetNum);
+            const result = await this.savedPostsManager.getSavedPosts(publicKey as string, numToFetchNum, offsetNum);
             return response.send(result);
         } catch {
             return response.status(400).send({ success: false, error: "Error fetching posts" });

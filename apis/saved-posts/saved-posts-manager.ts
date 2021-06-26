@@ -34,7 +34,6 @@ export class SavedPostsManager {
                 order: [["postedAt", "DESC"]],
             }
         ).then((posts) => posts.map((post) => post.postHashHex));
-
         return result;
     }
 }
