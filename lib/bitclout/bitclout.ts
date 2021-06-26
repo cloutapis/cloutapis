@@ -32,7 +32,10 @@ export class BitcloutAPI {
         }
     }
 
-    public isPublicKeyValid = async (publicKey: string) => {
+    public isPublicKeyValid = async (publicKey?: string) => {
+        if (!publicKey) {
+            return false;
+        }
         const profile = await this.getSingleProfile(publicKey);
         return !!profile?.Profile;
     }

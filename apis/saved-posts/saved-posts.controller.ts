@@ -3,10 +3,11 @@ import db from "../../models/index";
 import asyncHandler from "express-async-handler";
 import { TypeHelper } from "../../helpers/typeHelper";
 import BitcloutAPI from "../../lib/bitclout/bitclout";
+import JWTAuthMiddleware from "../../middleware/jwt-middleware"
 
 class SavedPostsController {
-    public path = "/savedPosts";
     public router = express.Router();
+    private jwtAuthMiddleWare = new JWTAuthMiddleware();
 
     private _bitclout = new BitcloutAPI();
 
@@ -15,16 +16,17 @@ class SavedPostsController {
     }
 
     public initializeRoutes() {
-        this.router.post("/savedPosts/save", asyncHandler(this.savePost));
-        this.router.post("/savedPosts/unsave", asyncHandler(this.unsavePost));
-        this.router.get("/savedPosts/:publicKey", asyncHandler(this.getSavedPosts));
+        this.router.post("/saved-posts/save", this.jwtAuthMiddleWare.protected, asyncHandler(this.savePost));
+        this.router.post("/saved-posts/unsave", this.jwtAuthMiddleWare.protected, asyncHandler(this.unsavePost));
+        this.router.get("/saved-posts/:publicKey", this.jwtAuthMiddleWare.protected, asyncHandler(this.getSavedPosts));
     }
 
     savePost = async (
         request: express.Request,
         response: express.Response
     ) => {
-        const { publicKey, postHashHex } = request.body;
+        const { postHashHex } = request.body;
+        const publicKey = request.authenticatedPublicKey
 
         if (!TypeHelper.isString(publicKey) || !TypeHelper.isString(postHashHex)) {
             return response.status(400).send({ error: "Request body is not valid" });
