@@ -17,9 +17,9 @@ class SavedPostsController {
     }
 
     public initializeRoutes() {
-        this.router.post("/saved-posts/save", this.jwtAuthMiddleWare.protected, asyncHandler(this.savePost));
-        this.router.post("/saved-posts/unsave", this.jwtAuthMiddleWare.protected, asyncHandler(this.unsavePost));
-        this.router.get("/saved-posts/:publicKey", this.jwtAuthMiddleWare.protected, asyncHandler(this.getSavedPosts));
+        this.router.post("/save", this.jwtAuthMiddleWare.protected, asyncHandler(this.savePost));
+        this.router.post("/unsave", this.jwtAuthMiddleWare.protected, asyncHandler(this.unsavePost));
+        this.router.get("/:publicKey", this.jwtAuthMiddleWare.protected, asyncHandler(this.getSavedPosts));
     }
 
     savePost = async (

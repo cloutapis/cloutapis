@@ -13,7 +13,7 @@ express()
   .use(express.json())
   .use("/", new CloutTagsController().router)
   .use("/", new SearchController().router)
-  .use("/", new SavedPostsController().router)
+  .use("/saved-posts/", new SavedPostsController().router)
   .use("/authorization/", new AuthorizationController().router)
   .get("/", (req, res) => res.redirect(301, "https://www.cloutapis.com"))
   .use(function errorHandler(err, req, res, next) {
