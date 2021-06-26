@@ -1,5 +1,4 @@
 import * as express from "express";
-import db, { sequelize } from "../../models/index";
 import SearchManager from "./search-manager";
 import asyncHandler from "express-async-handler";
 import { TypeHelper } from "../../helpers/typeHelper";
