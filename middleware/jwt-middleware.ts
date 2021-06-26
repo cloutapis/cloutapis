@@ -1,6 +1,16 @@
 import * as express from "express";
 import JWTAuthentication from "../lib/jwt-authentication";
 
+declare global {
+    namespace Express {
+        export interface Request {
+            // The publicKey that was used to validate the presented JWT
+            // Ensure that authenticated operations are only performed for this publicKey
+            authenticatedPublicKey?: string
+        }
+    }
+}
+
 class JWTAuthMiddleware {
     private jwtAuthenticator = new JWTAuthentication()
 
@@ -11,14 +21,12 @@ class JWTAuthMiddleware {
     ) => {
         const { jwt: getJWT, publicKey: getPublicKey } = request.query;
         const { jwt: postJWT, publicKey: postPublicKey } = request.body;
-        const jwt = getJWT || postJWT;
-        let publicKey = getPublicKey || postPublicKey;
+        const { publicKey: paramsPublicKey } = request.params;
 
-        // Look for a publicKey to verify in
-        // the path if we have a JWT but no publicKey
-        if (jwt && !publicKey) {
-            publicKey = request.path.match(/[-A-Za-z0-9.]{55,56}$/)?.shift();
-        }
+        const jwt = getJWT || postJWT;
+        // Order matters here - if there is a paramsPublicKey we must check
+        // that since it's the key that the route will operate on
+        const publicKey = paramsPublicKey || getPublicKey || postPublicKey;
 
         if (!jwt || !publicKey) {
             response.status(403).send({ validJWT: false, error: "Requires jwt & publicKey"});
@@ -26,6 +34,7 @@ class JWTAuthMiddleware {
         }
         const isValidJWT = await this.jwtAuthenticator.authenticateJWT(jwt, publicKey);
         if (isValidJWT) {
+            request.authenticatedPublicKey = publicKey;
             next()
         }
         else {

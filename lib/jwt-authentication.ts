@@ -9,23 +9,23 @@ class JWTAuthentication {
         jwt: string,
         publicKey: string
     ) => {
-        const publicKeyDecoded = bs58check.decode(publicKey);
-        const publicKeyDecodedArray = [...publicKeyDecoded];
-        const rawPublicKeyArray = publicKeyDecodedArray.slice(3);
-
-        const rawPublicKeyHex = ec
-            .keyFromPublic(rawPublicKeyArray, "hex")
-            .getPublic()
-            .encode("hex", true);
-
-        const keyEncoder = new KeyEncoder("secp256k1");
-        const rawPublicKeyEncoded = keyEncoder.encodePublic(
-            rawPublicKeyHex,
-            "raw",
-            "pem"
-        );
-
         try {
+            const publicKeyDecoded = bs58check.decode(publicKey);
+            const publicKeyDecodedArray = [...publicKeyDecoded];
+            const rawPublicKeyArray = publicKeyDecodedArray.slice(3);
+
+            const rawPublicKeyHex = ec
+                .keyFromPublic(rawPublicKeyArray, "hex")
+                .getPublic()
+                .encode("hex", true);
+
+            const keyEncoder = new KeyEncoder("secp256k1");
+            const rawPublicKeyEncoded = keyEncoder.encodePublic(
+                rawPublicKeyHex,
+                "raw",
+                "pem"
+            );
+            
             const result = jsonwebtoken.verify(jwt, rawPublicKeyEncoded, {
                 algorithms: ["ES256"],
             });
