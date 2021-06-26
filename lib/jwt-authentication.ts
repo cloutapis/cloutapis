@@ -4,9 +4,11 @@ const ec = new EC("secp256k1");
 const KeyEncoder = require("key-encoder").default;
 const bs58check = require("bs58check");
 
-export class AuthorizationManager {
-
-    public validateJWTToken = (publicKey: string, jwt: string) => {
+class JWTAuthentication {
+    authenticateJWT = async (
+        jwt: string,
+        publicKey: string
+    ) => {
         const publicKeyDecoded = bs58check.decode(publicKey);
         const publicKeyDecodedArray = [...publicKeyDecoded];
         const rawPublicKeyArray = publicKeyDecodedArray.slice(3);
@@ -28,9 +30,11 @@ export class AuthorizationManager {
                 algorithms: ["ES256"],
             });
 
-            return { valid: true, result };
+            return true;
         } catch (exception) {
-            return { valid: false, result: exception };
+            return false;
         }
     }
 }
+
+export default JWTAuthentication;

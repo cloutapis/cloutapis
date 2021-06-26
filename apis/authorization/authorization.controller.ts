@@ -1,9 +1,9 @@
 import * as express from "express";
 import asyncHandler from "express-async-handler";
-import { AuthorizationManager } from "./authorization-manager";
+import JWTAuthMiddleware from "../../middleware/jwt-middleware"
 
 class AuthorizationController {
-    private authorizationManager = new AuthorizationManager();
+    private jwtAuthMiddleWare = new JWTAuthMiddleware();
     public path = "/authorization";
     public router = express.Router();
 
@@ -12,27 +12,15 @@ class AuthorizationController {
     }
 
     public initializeRoutes() {
-        this.router.post("/authorization/validateToken", asyncHandler(this.validateToken));
+        this.router.post("/authorization/validate-token", this.jwtAuthMiddleWare.protected, asyncHandler(this.validateToken));
     }
 
     validateToken = async (
         request: express.Request,
         response: express.Response
     ) => {
-        const { publicKey, token }: { publicKey: string; token: string; } = request.body;
-
-        if (!publicKey || !token) {
-            response.status(401).send('Request body is not valid');
-            return;
-        }
-
-        const result = this.authorizationManager.validateJWTToken(publicKey, token);
-
-        if (result.valid) {
-            response.send(result);
-        } else {
-            response.status(401).send(result);
-        }
+        // Protected by Middleware
+        response.send({ validJWT: true })
     };
 }
 
