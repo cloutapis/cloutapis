@@ -37,14 +37,15 @@ export class CloutTagManager {
                     const mapping = {
                         postHashHex: post.PostHashHex,
                         clouttag: hashtag.replace("#", "").toLowerCase(),
-                        postedAt: new Date(post.TimestampNanos / 1000000)
+                        postedAt: new Date(post.TimestampNanos / 1000000),
+                        userPublicKeyBase58: post.PosterPublicKeyBase58Check
                     }
                     mappings.push(mapping);
                 })
             }
         })
         if (!overlappedWithLastRun) {
-            // For now, assuming that grabbin 100 posts every 30 seconds
+            // For now, assuming that grabbing 100 posts every 30 seconds
             // will ~get all posts. Later, we can paginate here!
             console.log("Likely missed posts inbetween calls.")
         }

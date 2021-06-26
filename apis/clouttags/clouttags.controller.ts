@@ -42,7 +42,10 @@ class CloutTagsController {
           [Op.gte]: moment().subtract(1, "days").toDate(),
         },
       },
-      attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "count"]],
+      attributes: [
+        "clouttag",
+        [sequelize.literal('COUNT(DISTINCT(COALESCE("userPublicKeyBase58", "postHashHex")))'), 'count']
+      ],
       group: ["clouttag"],
       order: [[sequelize.col("count"), "DESC"]],
       raw: true,
@@ -74,7 +77,10 @@ class CloutTagsController {
           [Op.like]: tagLowercase + "%",
         },
       },
-      attributes: ["clouttag", [sequelize.fn("COUNT", "0"), "count"]],
+      attributes: [
+        "clouttag", 
+        [sequelize.literal('COUNT(DISTINCT(COALESCE("userPublicKeyBase58", "postHashHex")))'), 'count']
+      ],
       group: ["clouttag"],
       order: [[sequelize.col("count"), "DESC"]],
       raw: true,
