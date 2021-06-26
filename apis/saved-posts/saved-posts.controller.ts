@@ -1,14 +1,16 @@
 import * as express from "express";
-import db from "../../models/index";
 import asyncHandler from "express-async-handler";
 import { TypeHelper } from "../../helpers/typeHelper";
 import BitcloutAPI from "../../lib/bitclout/bitclout";
 import JWTAuthMiddleware from "../../middleware/jwt-middleware"
+import { SavedPostsManager } from "./saved-posts-manager";
 
 class SavedPostsController {
     public router = express.Router();
+
     private jwtAuthMiddleWare = new JWTAuthMiddleware();
-    private _bitclout = new BitcloutAPI();
+    private bitclout = new BitcloutAPI();
+    private savedPostsManager = new SavedPostsManager();
 
     constructor() {
         this.initializeRoutes();
@@ -34,8 +36,8 @@ class SavedPostsController {
         try {
             const responses = await Promise.all(
                 [
-                    this._bitclout.isPublicKeyValid(publicKey),
-                    this._bitclout.getSinglePost(postHashHex)
+                    this.bitclout.isPublicKeyValid(publicKey),
+                    this.bitclout.getSinglePost(postHashHex)
                 ]
             );
 
@@ -51,13 +53,7 @@ class SavedPostsController {
                 return response.status(400).send({ success: false, error: "postHashhex does not exist" });
             }
 
-            const dbObject = {
-                publicKey,
-                postHashHex,
-                postedAt: new Date(post.PostFound.TimestampNanos / 1000000)
-            };
-
-            await db.SavedPosts.create(dbObject);
+            await this.savedPostsManager.savePost(publicKey as string, postHashHex, post.PostFound.TimestampNanos);
             return response.send({ success: true });
         } catch {
             return response.status(400).send({ success: false, error: "Error saving post" });
@@ -76,15 +72,8 @@ class SavedPostsController {
         }
 
         try {
-            const result = await db.SavedPosts.destroy(
-                {
-                    where: {
-                        publicKey,
-                        postHashHex
-                    }
-                }
-            );
-            return response.send({ success: true, deletedCount: result });
+            const deletedCount = await this.savedPostsManager.unsavePost(publicKey as string, postHashHex);
+            return response.send({ success: true, deletedCount });
         } catch {
             return response.status(400).send({ success: false, error: "Error deleting saved post" });
         }
@@ -98,30 +87,21 @@ class SavedPostsController {
         const { numToFetch, offset } = request.query;
 
         if (!TypeHelper.isString(publicKey)) {
-            response.status(400).send({ error: "public key is not valid" });
+            return response.status(400).send({ error: "public key is not valid" });
         }
 
         let numToFetchNum = Number(numToFetch);
         if (!TypeHelper.isNumber(numToFetchNum)) {
-          numToFetchNum = 20;
+            numToFetchNum = 20;
         }
-    
+
         let offsetNum = Number(offset);
         if (!TypeHelper.isNumber(offsetNum)) {
-          offsetNum = 0;
+            offsetNum = 0;
         }
-    
+
         try {
-            const result = await db.SavedPosts.findAll(
-                {
-                    limit: numToFetchNum,
-                    offset: offsetNum,
-                    where: {
-                        publicKey
-                    },
-                    order: [["postedAt", "DESC"]],
-                }
-            ).then((posts) => posts.map((post) => post.postHashHex));
+            const result = this.savedPostsManager.getSavedPosts(publicKey as string, numToFetchNum, offsetNum);
             return response.send(result);
         } catch {
             return response.status(400).send({ success: false, error: "Error fetching posts" });
