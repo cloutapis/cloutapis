@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import CloutTagsController from "./apis/clouttags/clouttags.controller";
 import SearchController from "./apis/search/search.controller";
+import SavedPostsController from "./apis/saved-posts/saved-posts.controller";
 import AuthorizationController from "./apis/authorization/authorization.controller";
 
 const PORT = process.env.PORT || 5000;
@@ -12,7 +13,8 @@ express()
   .use(express.json())
   .use("/", new CloutTagsController().router)
   .use("/", new SearchController().router)
-  .use("/", new AuthorizationController().router)
+  .use("/saved-posts/", new SavedPostsController().router)
+  .use("/authorization/", new AuthorizationController().router)
   .get("/", (req, res) => res.redirect(301, "https://www.cloutapis.com"))
   .use(function errorHandler(err, req, res, next) {
     console.error(`${err.message} - ${err.stack}`);

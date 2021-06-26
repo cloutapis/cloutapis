@@ -6,7 +6,6 @@ import { TypeHelper } from "../../helpers/typeHelper";
 import asyncHandler from "express-async-handler";
 
 class CloutTagsController {
-  public path = "/clouttags";
   public router = express.Router();
 
   constructor() {

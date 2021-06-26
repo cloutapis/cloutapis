@@ -4,7 +4,6 @@ import JWTAuthMiddleware from "../../middleware/jwt-middleware"
 
 class AuthorizationController {
     private jwtAuthMiddleWare = new JWTAuthMiddleware();
-    public path = "/authorization";
     public router = express.Router();
 
     constructor() {
@@ -12,7 +11,7 @@ class AuthorizationController {
     }
 
     public initializeRoutes() {
-        this.router.post("/authorization/validate-token/:publicKey", this.jwtAuthMiddleWare.protected, asyncHandler(this.validateToken));
+        this.router.post("/validate-token", this.jwtAuthMiddleWare.protected, asyncHandler(this.validateToken));
     }
 
     validateToken = async (
