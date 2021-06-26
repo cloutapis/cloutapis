@@ -11,7 +11,7 @@ class AuthorizationController {
     }
 
     public initializeRoutes() {
-        this.router.post("/validate-token/:publicKey", this.jwtAuthMiddleWare.protected, asyncHandler(this.validateToken));
+        this.router.post("/validate-token", this.jwtAuthMiddleWare.protected, asyncHandler(this.validateToken));
     }
 
     validateToken = async (
