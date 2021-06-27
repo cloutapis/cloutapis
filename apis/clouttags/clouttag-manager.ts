@@ -44,10 +44,10 @@ export class CloutTagManager {
                 })
             }
         })
-        if (!overlappedWithLastRun) {
+        if (!!this.lastRunLatestPostHashHex && !overlappedWithLastRun) {
             // For now, assuming that grabbing 100 posts every 30 seconds
             // will ~get all posts. Later, we can paginate here!
-            console.log("Likely missed posts inbetween calls.")
+            console.error("Likely missed posts inbetween calls.")
         }
         this.lastRunLatestPostHashHex = posts?.PostsFound[0].PostHashHex
         return mappings;
