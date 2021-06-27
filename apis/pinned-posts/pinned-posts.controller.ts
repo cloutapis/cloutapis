@@ -56,7 +56,6 @@ class PinnedPostsController {
             await this.pinnedPostsManager.pinPost(publicKey as string, postHashHex);
             return response.send({ success: true });
         } catch(exception) {
-            console.log(exception);
             return response.status(400).send({ success: false, error: "Error pinning post" });
         }
     };
