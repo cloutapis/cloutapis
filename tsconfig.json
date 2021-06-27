@@ -8,7 +8,6 @@
     "resolveJsonModule": true,
     "noImplicitAny": false,
     "allowJs": true,
-
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "removeComments": true,
@@ -18,7 +17,7 @@
     "./config/config.js",
     "./models/tagpost.js",
     "./models/savedPosts.js",
-    "./models/pinnedPosts.js",
+    "./models/pinnedposts.js",
     "apis/worker.ts"
   ]
 }

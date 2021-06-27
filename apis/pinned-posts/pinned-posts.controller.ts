@@ -19,7 +19,7 @@ class PinnedPostsController {
     public initializeRoutes() {
         this.router.post("/pin", this.jwtAuthMiddleWare.protected, asyncHandler(this.pinPost));
         this.router.post("/unpin", this.jwtAuthMiddleWare.protected, asyncHandler(this.unpinPost));
-        this.router.get("/:publicKey", this.jwtAuthMiddleWare.protected, asyncHandler(this.getPinnedPost));
+        this.router.get("/:publicKey", asyncHandler(this.getPinnedPost));
     }
 
     pinPost = async (
@@ -55,7 +55,7 @@ class PinnedPostsController {
 
             await this.pinnedPostsManager.pinPost(publicKey as string, postHashHex);
             return response.send({ success: true });
-        } catch(exception) {
+        } catch (exception) {
             return response.status(400).send({ success: false, error: "Error pinning post" });
         }
     };
@@ -83,14 +83,14 @@ class PinnedPostsController {
         request: express.Request,
         response: express.Response
     ) => {
-        const publicKey = request.authenticatedPublicKey;
+        const { publicKey } = request.params;
 
         if (!TypeHelper.isString(publicKey)) {
             return response.status(400).send({ error: "public key is not valid" });
         }
 
         try {
-            const result = await this.pinnedPostsManager.getPinnedPost(publicKey as string);
+            const result = await this.pinnedPostsManager.getPinnedPost(publicKey);
             return response.send(result);
         } catch {
             return response.status(400).send({ success: false, error: "Error fetching post" });
