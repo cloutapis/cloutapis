@@ -19,7 +19,7 @@ cron.schedule(
         cloutTagManager.processAndSaveCloutTags(posts),
         searchManager.indexPosts(posts),
       ]).then((values) => {
-        console.log(values);
+        // console.log(values);
       });
     } catch (err) {
       console.error(`Fetch worker failed fetch with error: ${err}`);
