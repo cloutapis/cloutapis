@@ -21,7 +21,7 @@ express()
 
     res.status(500).json({
       status: 500,
-      data: "Something went wrong",
+      error: "Something went wrong",
     });
   })
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
