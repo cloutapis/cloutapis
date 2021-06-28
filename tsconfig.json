@@ -16,8 +16,8 @@
     "./index.ts",
     "./config/config.js",
     "./models/tagpost.js",
-    "./models/savedPosts.js",
     "./models/pinnedposts.js",
+    "./models/savedposts.js",
     "apis/worker.ts"
   ]
 }

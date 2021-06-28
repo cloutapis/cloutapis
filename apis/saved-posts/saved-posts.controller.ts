@@ -55,7 +55,8 @@ class SavedPostsController {
 
             await this.savedPostsManager.savePost(publicKey as string, postHashHex, post.PostFound.TimestampNanos);
             return response.send({ success: true });
-        } catch {
+        } catch (err) {
+            console.error(err);
             return response.status(400).send({ success: false, error: "Error saving post" });
         }
     };
