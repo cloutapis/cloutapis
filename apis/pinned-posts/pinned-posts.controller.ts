@@ -3,26 +3,26 @@ import asyncHandler from "express-async-handler";
 import { TypeHelper } from "../../helpers/typeHelper";
 import BitcloutAPI from "../../lib/bitclout/bitclout";
 import JWTAuthMiddleware from "../../middleware/jwt-middleware"
-import { SavedPostsManager } from "./saved-posts-manager";
+import { PinnedPostsManager } from "./pinned-posts-manager";
 
-class SavedPostsController {
+class PinnedPostsController {
     public router = express.Router();
 
     private jwtAuthMiddleWare = new JWTAuthMiddleware();
     private bitclout = new BitcloutAPI();
-    private savedPostsManager = new SavedPostsManager();
+    private pinnedPostsManager = new PinnedPostsManager();
 
     constructor() {
         this.initializeRoutes();
     }
 
     public initializeRoutes() {
-        this.router.post("/save", this.jwtAuthMiddleWare.protected, asyncHandler(this.savePost));
-        this.router.post("/unsave", this.jwtAuthMiddleWare.protected, asyncHandler(this.unsavePost));
-        this.router.get("/:publicKey", this.jwtAuthMiddleWare.protected, asyncHandler(this.getSavedPosts));
+        this.router.post("/pin", this.jwtAuthMiddleWare.protected, asyncHandler(this.pinPost));
+        this.router.post("/unpin", this.jwtAuthMiddleWare.protected, asyncHandler(this.unpinPost));
+        this.router.get("/:publicKey", asyncHandler(this.getPinnedPost));
     }
 
-    savePost = async (
+    pinPost = async (
         request: express.Request,
         response: express.Response
     ) => {
@@ -53,61 +53,49 @@ class SavedPostsController {
                 return response.status(400).send({ success: false, error: "postHashhex does not exist" });
             }
 
-            await this.savedPostsManager.savePost(publicKey as string, postHashHex, post.PostFound.TimestampNanos);
+            await this.pinnedPostsManager.pinPost(publicKey as string, postHashHex);
             return response.send({ success: true });
-        } catch (err) {
-            console.error(err);
-            return response.status(400).send({ success: false, error: "Error saving post" });
+        } catch (exception) {
+            return response.status(400).send({ success: false, error: "Error pinning post" });
         }
     };
 
-    unsavePost = async (
+    unpinPost = async (
         request: express.Request,
         response: express.Response
     ) => {
         const { postHashHex } = request.body;
-        const publicKey = request.authenticatedPublicKey;
+        const publicKey = request.authenticatedPublicKey
 
         if (!TypeHelper.isString(publicKey) || !TypeHelper.isString(postHashHex)) {
             return response.status(400).send({ error: "Requires postHashHex and publicKey" });
         }
 
         try {
-            const deletedCount = await this.savedPostsManager.unsavePost(publicKey as string, postHashHex);
+            const deletedCount = await this.pinnedPostsManager.unpinPost(publicKey as string, postHashHex);
             return response.send({ success: true, deletedCount });
         } catch {
-            return response.status(400).send({ success: false, error: "Error deleting saved post" });
+            return response.status(400).send({ success: false, error: "Error deleting pinned post" });
         }
     };
 
-    getSavedPosts = async (
+    getPinnedPost = async (
         request: express.Request,
         response: express.Response
     ) => {
-        const publicKey = request.authenticatedPublicKey;
-        const { numToFetch, offset } = request.query;
+        const { publicKey } = request.params;
 
         if (!TypeHelper.isString(publicKey)) {
             return response.status(400).send({ error: "public key is not valid" });
         }
 
-        let numToFetchNum = Number(numToFetch);
-        if (!TypeHelper.isNumber(numToFetchNum)) {
-            numToFetchNum = 20;
-        }
-
-        let offsetNum = Number(offset);
-        if (!TypeHelper.isNumber(offsetNum)) {
-            offsetNum = 0;
-        }
-
         try {
-            const result = await this.savedPostsManager.getSavedPosts(publicKey as string, numToFetchNum, offsetNum);
+            const result = await this.pinnedPostsManager.getPinnedPost(publicKey);
             return response.send(result);
         } catch {
-            return response.status(400).send({ success: false, error: "Error fetching posts" });
+            return response.status(400).send({ success: false, error: "Error fetching post" });
         }
     };
 }
 
-export default SavedPostsController;
+export default PinnedPostsController;
