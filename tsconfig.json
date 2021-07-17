@@ -18,6 +18,7 @@
     "./models/tagpost.js",
     "./models/pinnedposts.js",
     "./models/savedposts.js",
+    "./models/apimetadata.js",
     "apis/worker.ts"
   ]
 }
