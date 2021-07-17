@@ -128,9 +128,9 @@ export class RandomizeManager {
         const { Notifications, ProfilesByPublicKey, PostsByHash } = await this.bitclout.getNotifications("BC1YLgonSFPGDNE67EY6LytqHqvkYZYGHz3wECuCCLwYqorwhLv4VJG")
         console.log(`Notifications: ${Notifications}`);
         let lastSendIndex = await this.getLastProcessedNotificationIndex();
+        let maxIndex = Notifications[0].Index;
         if (!lastSendIndex) {
             console.log('DB reset. Ignoring first run.');
-            let maxIndex = Notifications[0].Index;
             this.setLastProcessedNotificationIndex(maxIndex);
             return;
         }
