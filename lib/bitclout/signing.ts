@@ -1,9 +1,9 @@
 import { crypto } from "./crypto.js";
 import { SecureStoreAuthenticatedUserEncryptionKey, SecureStoreAuthenticatedUser } from './types';
 import KeyEncoder from "key-encoder";
-import sha256 from './sha256.js';
+//import * as sha256 from './sha256.js';
 
-// const sha256 = require("sha256");
+const sha256 = require("sha256");
 import * as ecies from './ecies.js';
 // const ecies = require("./ecies.js");
 
@@ -17,7 +17,7 @@ async function getSeedHex(): Promise<string> {
     const { BITCLOUT_SEED } = process.env;
     const mnemo = BITCLOUT_SEED;
     if (mnemo == null) {
-        return "";
+        return "derp dorp";
     }
     let seedHex = crypto.mnemonicToSeedHex(mnemo);
     return seedHex;

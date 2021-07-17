@@ -43,9 +43,7 @@ export class RandomizeManager {
     public drawAndNotifyContest = async (request: RandomizeRequest) => {
         try {
             let contestants = await this.getContestantsForRandomizeRequest(request);
-            console.log(`Contestants: ${contestants}`);
             let drawnRequest = await this.drawContest(request, contestants);
-            console.log(`Winners: ${drawnRequest.winningUsernames}`)
             await this.notifyWinners(drawnRequest);
         }
         catch (e) {
@@ -68,10 +66,11 @@ export class RandomizeManager {
         }
 
         console.log(`Message: ${messageBody}`);
-        //this.bitclout.createPost(messageBody, request.competitionPostHashHex);
+        this.bitclout.createPost(messageBody, request.competitionPostHashHex);
     };
 
     private drawContest = async (request: RandomizeRequest, contestants): Promise<RandomizeRequest> => {
+        console.log(`contestants: ${JSON.stringify(contestants)}`);
         if (request.numToPick > contestants.length) {
             //TODO: Is this the right policy?
             request.winningUsernames = contestants.map(function (contestant) { return contestant.Username });
@@ -80,7 +79,9 @@ export class RandomizeManager {
 
         var winners: string[] = [];
         for (var i = 0; i < request.numToPick; i++) {
-            var winner = contestants[Math.floor(Math.random() * contestants.length - 1)].Username;
+            const selectedIndex = Math.floor(Math.random() * (contestants.length - 1));
+            console.log(`Selected: ${selectedIndex}`);
+            var winner = contestants[selectedIndex].Username;
             if (winners.includes(winner)) {
                 i--;
             }
@@ -141,7 +142,7 @@ export class RandomizeManager {
                 randomizeRequests.push(randomizeRequest)
             }            
         }
-        // this.setLastProcessedNotificationIndex(maxIndex);
+        this.setLastProcessedNotificationIndex(maxIndex);
         return randomizeRequests;
     }
 
@@ -152,42 +153,44 @@ export class RandomizeManager {
 
         // Should not process post
         if (type != "SUBMIT_POST" || !inReplyToPost || index <= lastSendIndex) {
-            console.log("Rejecting notification for processing");
+            console.log(`Not a valid randomize request`);
             return undefined;
         }
         
         // The reply to post may or may not be in the PostsByHash
-        let post = PostsByHash[inReplyToPost] ?? await this.bitclout.getSinglePost(inReplyToPost);
+        let post = await this.bitclout.getSinglePost(inReplyToPost);
         let notificationOriginator = notification.Metadata?.TransactorPublicKeyBase58Check;
         let originalPoster = post.PostFound?.PosterPublicKeyBase58Check;
 
         // Eligible for evaluation
-        if (!!notificationOriginator) {// && (notificationOriginator == originalPoster)) {
-            let randomizeRequestPostHashHex = notification.Metadata?.SubmitPostTxindexMetadata?.PostHashBeingModifiedHex;
-            let postBody = PostsByHash[randomizeRequestPostHashHex]?.Body;
-
-            // Pattern designed to match reply|replies or reclout|reclouters etc..
-            const regexp = /@randomize\s*([0-9]+)\s*(reclout|diamond|repl)/g;
-            const matches = regexp.exec(postBody);
-            if (matches == null) {
-                return null;
-            }
-
-            if (matches.length >= 3) {
-                const numToPick = matches[1];
-                const action = matches[2]?.toLowerCase();
-                const message = matches.length >= 4 ? matches[3] : undefined;
-                return {
-                    competitionPostHashHex: inReplyToPost,
-                    requestPostHashHex: randomizeRequestPostHashHex,
-                    numToPick: Number(numToPick),
-                    action: action,
-                    message: message,
-                    state: RandomizeRequestState.pending
-                }
-
-            }
+        if (!notificationOriginator || (notificationOriginator != originalPoster)) {
+            console.log(`Invalid requstor: ${notificationOriginator} original poster: ${originalPoster}`);
+            return undefined;
         }
+
+        let randomizeRequestPostHashHex = notification.Metadata?.SubmitPostTxindexMetadata?.PostHashBeingModifiedHex;
+        let postBody = PostsByHash[randomizeRequestPostHashHex]?.Body;
+
+        // Pattern designed to match reply|replies or reclout|reclouters etc..
+        const regexp = /@randomize\s*([0-9]+)\s*(reclout|diamond|repl)[a-z]*[ ]*(.*)/g;
+        const matches = regexp.exec(postBody);
+        if (matches == null || matches.length < 3) {
+            console.log(`Invalid request text`);
+            return null;
+        }
+
+        const numToPick = matches[1];
+        const action = matches[2]?.toLowerCase();
+        const message = matches.length >= 4 ? matches[3] : undefined;
+        return {
+            competitionPostHashHex: inReplyToPost,
+            requestPostHashHex: randomizeRequestPostHashHex,
+            numToPick: Number(numToPick),
+            action: action,
+            message: message,
+            state: RandomizeRequestState.pending
+        }
+
         return undefined;
     }
 

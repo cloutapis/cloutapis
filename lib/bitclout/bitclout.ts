@@ -108,9 +108,7 @@ export class BitcloutAPI {
 
         if (response.ok) {
             let json = await response.json();
-            console.log(JSON.stringify(json));
             let reclouters = json?.Reclouters;
-            console.log(`Got reclouters: ${JSON.stringify(reclouters)}`);
             return reclouters ?? [];
         } else {
             console.error(`Fetch reclouters response code: ${response.status}`);
@@ -134,7 +132,6 @@ export class BitcloutAPI {
             let quoteReclouters = (await response.json())?.QuoteReclouts?.map(function (reclout) {
                 return reclout.ProfileEntryResponse;
             });
-            console.log(`Got quote reclouters: ${JSON.stringify(quoteReclouters)}`);
             return quoteReclouters ?? [];
         } else {
             return [];
@@ -161,14 +158,19 @@ export class BitcloutAPI {
         };
 
         const response = await this.post(method, body);
-        const transactionHashHex = (await response.json())?.TransactionHex;
-        const signed = await signing.signTransaction(transactionHashHex);
+        const postResponseJson = await response.json();
+        console.log(`Made post: ${JSON.stringify(postResponseJson)}`);
+        const transactionHashHex = postResponseJson?.TransactionHex;
+        const signedTxHashHex = await signing.signTransaction(transactionHashHex);
+        console.log(`Signature: ${signedTxHashHex}`);
+        const signed = await this.submitTransaction(signedTxHashHex)
+        console.log(`Submitted: ${signed}`);
         return signed;
     }
 
     private submitTransaction = async (transactionHashHex: string) => {
         const body = {
-            PostHasTransactionHexhHex: transactionHashHex
+            TransactionHex: transactionHashHex
         };
         const response = await this.post("v0/submit-transaction", body);
         if (response.ok) {

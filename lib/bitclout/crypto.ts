@@ -7,7 +7,7 @@ const { ec } = elliptic;
 
 
 import HDKey from 'hdkey';
-import bip39 from 'bip39';
+import * as bip39 from 'bip39';
 import bs58check from 'bs58check';
 
 

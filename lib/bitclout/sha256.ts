@@ -10,7 +10,6 @@
 /*jslint bitwise: true */
 import crypto from 'crypto';
 import { Buffer } from 'buffer';
-  'use strict';
 
   var ERROR = 'input is invalid type';
   var WINDOW = typeof window === 'object';
