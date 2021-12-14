@@ -17,7 +17,7 @@ cron.schedule(
       const posts = await bitclout.getLatestPosts();
       Promise.all([
         cloutTagManager.processAndSaveCloutTags(posts),
-        randomizeManager.fetchAndRespondToRandomizeRequests()
+        // randomizeManager.fetchAndRespondToRandomizeRequests()
       ]).then((values) => {
         // console.log(values);
       });
