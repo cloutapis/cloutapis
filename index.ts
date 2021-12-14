@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import CloutTagsController from "./apis/clouttags/clouttags.controller";
-import SearchController from "./apis/search/search.controller";
 import SavedPostsController from "./apis/saved-posts/saved-posts.controller";
 import PinnedPostsController from "./apis/pinned-posts/pinned-posts.controller";
 import AuthorizationController from "./apis/authorization/authorization.controller";
@@ -14,7 +13,6 @@ express()
   .use(express.static(path.join(__dirname, "../public")))
   .use(express.json())
   .use("/", new CloutTagsController().router)
-  .use("/", new SearchController().router)
   .use("/saved-posts/", new SavedPostsController().router)
   .use("/pinned-posts/", new PinnedPostsController().router)
   .use("/authorization/", new AuthorizationController().router)
